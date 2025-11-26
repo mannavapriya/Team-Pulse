@@ -30,7 +30,8 @@
           },
           "configurations": {
             "production": {
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "budgets": []
             },
             "development": {
               "optimization": false,
