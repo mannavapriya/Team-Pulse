@@ -16,12 +16,13 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "src/main.ts",
+            "outputPath": "dist/team-pulse-web",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
@@ -30,6 +31,7 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
               "outputHashing": "all",
               "budgets": [
                 {
@@ -42,12 +44,12 @@
                   "maximumWarning": "1MB",
                   "maximumError": "2MB"
                 }
-            ]
+              ]
             },
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"
