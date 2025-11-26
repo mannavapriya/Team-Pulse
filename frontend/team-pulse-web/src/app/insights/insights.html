@@ -1,0 +1,9 @@
+<div class="max-w-2xl mx-auto mt-10 bg-white shadow rounded p-6">
+  <h2 class="text-xl font-bold mb-4">AI Insights for Today</h2>
+
+  <div *ngIf="loading" class="text-gray-500">Generating insights...</div>
+  
+  <div *ngIf="!loading">
+    <pre class="whitespace-pre-wrap">{{ insights }}</pre>
+  </div>
+</div>

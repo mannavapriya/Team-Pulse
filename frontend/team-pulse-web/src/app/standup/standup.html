@@ -1,0 +1,107 @@
+<div class="max-w-6xl mx-auto mt-10">
+
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Team Pulse</h1>
+        <div class="flex items-center space-x-4">
+         <button 
+            (click)="goToPRReview()"
+            class="text-blue-600 hover:text-blue-800 font-medium">
+            PR Review
+          </button>
+
+          <button 
+            (click)="logout()"
+            class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+            Logout
+          </button>
+        </div>
+  </div>
+
+  <div class="bg-white shadow rounded p-6 flex gap-6">
+
+    <!-- Left Column: Daily Standup & Updates -->
+    <div class="w-1/2 flex flex-col">
+      <h2 class="text-xl font-bold mb-4">Daily Standup</h2>
+
+      <form [formGroup]="standupForm" (ngSubmit)="submit()" class="space-y-4 mb-6">
+        <input type="text" placeholder="Your Name" formControlName="userId"
+          class="w-full p-2 border rounded" />
+
+        <textarea placeholder="Tasks for today" formControlName="tasks"
+          class="w-full p-2 border rounded"></textarea>
+
+        <input type="text" placeholder="Blockers (optional)" formControlName="blockers"
+          class="w-full p-2 border rounded" />
+
+        <div class="flex space-x-2">
+          <input type="number" min="1" max="5" placeholder="Priority" formControlName="priority"
+            class="w-1/3 p-2 border rounded" />
+
+          <select formControlName="mood" class="w-2/3 p-2 border rounded">
+            <option value="happy">Happy</option>
+            <option value="neutral">Neutral</option>
+            <option value="sad">Sad</option>
+          </select>
+        </div>
+
+        <button type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Submit
+        </button>
+
+        <div *ngIf="successMessage" class="mt-3 bg-green-100 text-green-800 p-3 rounded">
+          {{ successMessage }}
+        </div>
+      </form>
+
+      <h3 class="text-lg font-semibold mb-2">Today's Updates</h3>
+      <ul class="space-y-2 flex-1 overflow-auto">
+        <li *ngFor="let update of todayUpdates" class="p-3 border rounded shadow-sm hover:bg-gray-50 flex justify-between items-start">
+          <div>
+            <p><strong>{{ update.userId }}</strong> ({{ update.mood }})</p>
+            <p>Tasks: {{ update.tasks }}</p>
+            <p *ngIf="update.blockers">Blockers: {{ update.blockers }}</p>
+            <p>Priority: {{ update.priority }}</p>
+          </div>
+          <div class="flex flex-col space-y-1 ml-4">
+            <button 
+              (click)="editUpdate(update)" 
+              class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+              Edit
+            </button>
+            <button 
+              (click)="deleteUpdate(update.userId)" 
+              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+              Delete
+            </button>
+          </div>
+        </li>
+        <div *ngIf="deleteMessage" class="mt-3 bg-green-100 text-green-800 p-3 rounded">
+          {{ deleteMessage }}
+        </div>
+      </ul>
+    </div>
+
+    <!-- Right Column: Insights -->
+    <div class="w-1/2 flex flex-col">
+      <div class="mt-11 mb-4">
+        <button 
+          (click)="showInsights()" 
+          class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">
+          Show Insights
+        </button>
+      </div>
+
+      <div *ngIf="loadingInsights" class="p-4 bg-gray-100 rounded shadow animate-pulse">
+        Loading insights...
+      </div>
+
+      <div *ngIf="!loadingInsights && insights" class="flex-1 p-4 bg-gray-100 rounded shadow overflow-auto">
+        <h3 class="font-semibold text-lg mb-2">Today's Standup Insights</h3>
+        <div [innerHTML]="insights"></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

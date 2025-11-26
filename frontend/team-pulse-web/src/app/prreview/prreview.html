@@ -1,0 +1,53 @@
+<div class="max-w-6xl mx-auto mt-10">
+
+  <!-- Top Header with Logout -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Code Review</h1>
+
+    <div class="flex items-center space-x-4">
+        <button 
+        (click)="goToStandup()"
+        class="text-blue-600 hover:text-blue-800 font-medium">
+        Standup
+        </button>
+
+        <button 
+        (click)="logout()"
+        class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+        Logout
+        </button>
+    </div>
+  </div>
+
+  <!-- Code Review Panel -->
+  <div class="p-6 bg-white rounded shadow max-w-5xl mx-auto mt-4">
+
+    <h2 class="text-xl font-bold mb-4">Review a Pull Request</h2>
+
+    <input [(ngModel)]="repoOwner" placeholder="Repo Owner"
+      class="w-full mb-2 p-2 border rounded" />
+
+    <input [(ngModel)]="repoName" placeholder="Repo Name"
+      class="w-full mb-2 p-2 border rounded" />
+
+    <input [(ngModel)]="prNumber" type="number" placeholder="PR Number"
+      class="w-full mb-2 p-2 border rounded" />
+
+    <button (click)="submitReview()"
+      class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 w-full">
+      Review PR
+    </button>
+
+    <div *ngIf="loading"
+      class="mt-4 p-4 bg-gray-100 rounded animate-pulse">
+      Loading...
+    </div>
+
+    <pre *ngIf="reviewOutput"
+      class="mt-4 p-4 bg-gray-100 rounded overflow-auto">
+        {{ reviewOutput | json }}
+    </pre>
+
+  </div>
+
+</div>

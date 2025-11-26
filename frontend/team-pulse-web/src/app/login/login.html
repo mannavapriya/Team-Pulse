@@ -1,0 +1,29 @@
+<div class="max-w-md mx-auto mt-10 p-6 bg-white shadow rounded">
+  <h1 class="text-2xl font-bold mb-4">Team Pulse Login</h1>
+
+  <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-4">
+    <input type="text" placeholder="Username" formControlName="username"
+      class="w-full p-2 border rounded" />
+
+    <input type="password" placeholder="Password" formControlName="password"
+      class="w-full p-2 border rounded" />
+
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      Login
+    </button>
+
+    <div *ngIf="errorMessage" class="mt-2 text-red-600">
+      {{ errorMessage }}
+    </div>
+  </form>
+
+  <div class="mt-4 text-center">
+    <span class="text-gray-600">Don't have an account?</span>
+    <button
+      (click)="goToRegister()"
+      class="ml-2 text-blue-500 hover:underline"
+    >
+      Register
+    </button>
+  </div>
+</div>
