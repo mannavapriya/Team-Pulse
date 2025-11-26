@@ -7,6 +7,6 @@ export class PRReviewService {
   constructor(private http: HttpClient) {}
 
   reviewPR(repoOwner: string, repoName: string, prNumber: number): Observable<any> {
-    return this.http.post('http://localhost:3000/review-pr', { repoOwner, repoName, prNumber});
+    return this.http.post('http://3.138.110.57:3000/review-pr', { repoOwner, repoName, prNumber});
   }
 }
