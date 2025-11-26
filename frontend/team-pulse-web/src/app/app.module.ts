@@ -8,9 +8,6 @@ import { routes } from './app.routes';
 import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
