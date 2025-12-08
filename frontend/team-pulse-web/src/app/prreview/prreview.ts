@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component} from '@angular/core';
 import { PRReviewService } from '../services/pr-review.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ export class PRReviewComponent {
   reviewOutput: any = null;
   loading = false;
 
-  constructor(private prReviewService: PRReviewService, private authService: AuthService, private router: Router) {}
+  constructor(private prReviewService: PRReviewService, private authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   submitReview() {
     if (!this.prNumber) return;
@@ -30,10 +30,20 @@ export class PRReviewComponent {
     this.prReviewService.reviewPR(
       this.repoOwner,
       this.repoName,
-      this.prNumber
+      Number(this.prNumber)
     ).subscribe({
-      next: res => { this.reviewOutput = res; this.loading = false; },
-      error: err => { this.reviewOutput = err; this.loading = false; }
+      next: res => {
+        this.reviewOutput = res;
+        this.loading = false;
+
+        // Force Angular to detect the changes
+        this.cdr.detectChanges();
+      },
+      error: err => {
+        this.reviewOutput = err;
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

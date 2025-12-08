@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { PulseUpdate, PulseUpdateDocument } from './schemas/update.schema';
 
 @Injectable()
@@ -27,37 +27,23 @@ export class UpdatesService {
     }).exec();
   }
 
-  // Optional: upsert per user per day
-  async createOrUpdate(userId: string, updateDto: Partial<PulseUpdate>): Promise<PulseUpdate> {
-    const start = new Date();
-    start.setHours(0, 0, 0, 0);
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
-
-    return this.updateModel.findOneAndUpdate(
-      { userId, createdAt: { $gte: start, $lte: end } },
-      updateDto,
-      { new: true, upsert: true },
-    ).exec();
+  // Delete by MongoDB _id
+  async deleteById(id: string): Promise<{ deletedCount: number }> {
+    if (!Types.ObjectId.isValid(id)) {
+      return { deletedCount: 0 };
+    }
+    const result = await this.updateModel.deleteOne({ _id: id }).exec();
+    return result;
   }
 
-  async deleteByUserId(userId: string): Promise<boolean> {
-    const result = await this.updateModel.deleteOne({ userId }).exec();
-    return result.deletedCount > 0;
-  }
+  // Update by MongoDB _id
+  async updateById(id: string, updateDto: Partial<PulseUpdate>): Promise<PulseUpdate | null> {
+    if (!Types.ObjectId.isValid(id)) return null;
 
-  // Update an existing update for a given user
-  async updateByUserId(userId: string, updateDto: Partial<PulseUpdate>): Promise<PulseUpdate | null> {
-    const start = new Date();
-    start.setHours(0, 0, 0, 0);
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
-
-    return this.updateModel.findOneAndUpdate(
-      { userId, createdAt: { $gte: start, $lte: end } },
+    return this.updateModel.findByIdAndUpdate(
+      id,
       updateDto,
       { new: true }
     ).exec();
   }
-
 }

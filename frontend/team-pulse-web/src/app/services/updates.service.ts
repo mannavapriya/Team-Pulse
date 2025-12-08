@@ -25,7 +25,8 @@ export class UpdatesService {
     return { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) };
   }
 
-  postUpdate(update: Update): Observable<Update> {
+  // Match component method
+  create(update: Update): Observable<Update> {
     return this.http.post<Update>(this.apiUrl, update, this.getHeaders());
   }
 
@@ -33,11 +34,13 @@ export class UpdatesService {
     return this.http.get<Update[]>(`${this.apiUrl}/today`, this.getHeaders());
   }
 
-  deleteUpdateByUserId(userId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/user/${userId}`, this.getHeaders());
+  // Match component method
+  update(id: string, update: Update): Observable<Update> {
+    return this.http.put<Update>(`${this.apiUrl}/${id}`, update, this.getHeaders());
   }
 
-  updateByUserId(userId: string, update: Update): Observable<Update> {
-    return this.http.put<Update>(`${this.apiUrl}/user/${userId}`, update, this.getHeaders());
+  // Match component method
+  delete(id: string): Observable<{ deletedCount: number }> {
+    return this.http.delete<{ deletedCount: number }>(`${this.apiUrl}/${id}`, this.getHeaders());
   }
 }

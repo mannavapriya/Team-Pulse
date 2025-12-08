@@ -25,7 +25,7 @@ export class InsightsService {
         (u) =>
           `• ${u.userId}\n  - Tasks: ${u.tasks}\n  - Blockers: ${
             u.blockers || 'None'
-          }\n  - Priority: ${u.priority || 'N/A'}\n  - Mood: ${
+          }\n  - Help Indicator: ${u.priority || 'N/A'}\n  - Mood: ${
             u.mood || 'N/A'
           }`
       )
@@ -34,10 +34,13 @@ export class InsightsService {
     const prompt = `
 You are an expert AI team assistant.
 Analyze the following daily standup updates from this team and produce a **structured, actionable report**.
-Please note that this is the only development team in the company and focus on team-wide insights.
+Follow this below Help Indicator Guide:
+Need Help (1) – Needs help with tasks.
+Working on It (2) – Working on it, may reach out if needed.
+All Good (3) – All good, nothing to worry.Please note that this is the only development team in the company and focus on team-wide insights.
 
 Include:
-1. Suggested priority adjustments
+1. Analyzis of overall team progress and productivity
 2. Steps to resolve the blockers
 3. Recommendations for action items and improvements
 4. Mood analysis and team engagement patterns

@@ -43,10 +43,29 @@
       Loading...
     </div>
 
-    <pre *ngIf="reviewOutput"
-      class="mt-4 p-4 bg-gray-100 rounded overflow-auto">
-        {{ reviewOutput | json }}
-    </pre>
+   <div *ngIf="reviewOutput">
+  <h3 class="text-lg font-bold mb-2">PR #{{ reviewOutput.prNumber }} Review</h3>
+
+  <div *ngFor="let file of reviewOutput.files" class="mb-4 p-4 border rounded bg-gray-50">
+    <h4 class="font-semibold">{{ file.filename }}</h4>
+    <p class="italic mb-2">{{ file.review.Summary }}</p>
+
+    <div *ngFor="let key of ['Correctness','Readability','Efficiency','Best Practices']">
+      <p><strong>{{ key }}:</strong> {{ file.review[key] }}</p>
+    </div>
+
+    <div class="mt-2">
+      <h5 class="font-semibold">Feedback:</h5>
+      <ul class="list-disc list-inside">
+        <li *ngFor="let key of ['Correctness','Readability','Efficiency','Best Practices']">
+          <strong>{{ key }}:</strong> {{ file.review.Feedback[key] }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
 
   </div>
 

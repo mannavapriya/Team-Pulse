@@ -1,9 +1,6 @@
 import { Controller, Get, Post, Body, Delete, Param, Put, HttpCode, HttpStatus } from '@nestjs/common';
 import { UpdatesService } from './updates.service';
 import { PulseUpdate } from './schemas/update.schema';
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from './jwt-auth.guard';
-
 
 @Controller('updates')
 export class UpdatesController {
@@ -28,28 +25,28 @@ export class UpdatesController {
   }
 
   /**
-   * Delete a user's update
-   * DELETE /updates/user/:userId
+   * Delete an update by MongoDB _id
+   * DELETE /updates/:id
    */
-  @Delete('user/:userId')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteByUserId(@Param('userId') userId: string) {
-    const deleted = await this.updatesService.deleteByUserId(userId);
-    if (!deleted) {
-      return { message: `No update found for user ${userId}` };
+  async delete(@Param('id') id: string) {
+    const result = await this.updatesService.deleteById(id);
+    if (!result || result.deletedCount === 0) {
+      return { message: `No update found with id ${id}` };
     }
     return;
   }
 
   /**
-   * Update a user's update
-   * PUT /updates/user/:userId
+   * Update an update by MongoDB _id
+   * PUT /updates/:id
    */
-  @Put('user/:userId')
+  @Put(':id')
   async update(
-    @Param('userId') userId: string,
+    @Param('id') id: string,
     @Body() updateDto: Partial<PulseUpdate>
   ): Promise<PulseUpdate | null> {
-    return this.updatesService.updateByUserId(userId, updateDto);
+    return this.updatesService.updateById(id, updateDto);
   }
 }
