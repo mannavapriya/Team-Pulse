@@ -4,14 +4,14 @@ import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://3.138.110.57:3000/auth';
+  private apiUrl = 'http://3.15.18.189:3000/auth';
   private tokenKey = 'token';
 
   constructor(private http: HttpClient) {}
 
   // auth.service.ts (Angular)
   login(username: string, password: string) {
-    return this.http.post<{ access_token: string }>('http://3.138.110.57:3000/auth/login', { username, password })
+    return this.http.post<{ access_token: string }>('http://3.15.18.189:3000/auth/login', { username, password })
     .pipe(tap(res => localStorage.setItem('token', res.access_token)));
   }
 

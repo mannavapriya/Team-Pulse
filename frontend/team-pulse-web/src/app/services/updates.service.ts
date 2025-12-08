@@ -16,7 +16,7 @@ export interface Update {
   providedIn: 'root'
 })
 export class UpdatesService {
-  private apiUrl = 'http://3.138.110.57:3000/updates';
+  private apiUrl = 'http://3.15.18.189:3000/updates';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
