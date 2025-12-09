@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 export interface Update {
+  _id?: string;
   userId: string;
   tasks: string;
   blockers?: string;
