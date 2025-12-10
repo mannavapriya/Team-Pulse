@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class InsightsService {
-  private apiUrl = 'http://18.224.202.131:3000/insights/today';
+  private apiUrl = 'http://3.144.123.223:3000/insights/today';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
